@@ -1,0 +1,256 @@
+{
+  "id": "simple-calculator-workflow",
+  "metadata": {
+    "name": "Simple Calculator Agent",
+    "description": "A basic calculator agent that can perform mathematical operations and answer questions about calculations",
+    "author": "Visual Agent Builder Demo",
+    "version": "1.0.0",
+    "tags": ["calculator", "math", "demo", "beginner"],
+    "created_at": "2025-01-15T10:00:00Z",
+    "updated_at": "2025-01-15T10:00:00Z"
+  },
+  "workflow_type": "react_agent",
+  "components": [
+    {
+      "name": "calculator_multiply",
+      "component_type": "function",
+      "component_name": "calculator_multiply",
+      "configuration": {},
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "description": "Multiply two numbers"
+    },
+    {
+      "name": "calculator_divide",
+      "component_type": "function",
+      "component_name": "calculator_divide",
+      "configuration": {},
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "description": "Divide two numbers"
+    },
+    {
+      "name": "calculator_add",
+      "component_type": "function",
+      "component_name": "calculator_add",
+      "configuration": {},
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "description": "Add two numbers"
+    },
+    {
+      "name": "calculator_subtract",
+      "component_type": "function",
+      "component_name": "calculator_subtract",
+      "configuration": {},
+      "position": {
+        "x": 100,
+        "y": 400
+      },
+      "description": "Subtract two numbers"
+    },
+    {
+      "name": "current_datetime",
+      "component_type": "function",
+      "component_name": "current_datetime",
+      "configuration": {},
+      "position": {
+        "x": 100,
+        "y": 500
+      },
+      "description": "Get current date and time"
+    },
+    {
+      "name": "nim_llm",
+      "component_type": "llm",
+      "component_name": "nim",
+      "configuration": {
+        "model_name": "meta/llama-3.1-70b-instruct",
+        "temperature": 0.0,
+        "max_tokens": 1024
+      },
+      "position": {
+        "x": 400,
+        "y": 300
+      },
+      "description": "NVIDIA NIM hosted language model"
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-1",
+      "source_component": "calculator_multiply",
+      "target_component": "nim_llm",
+      "source_port": "output",
+      "target_port": "tools",
+      "connection_type": "data_flow",
+      "configuration": {}
+    },
+    {
+      "id": "conn-2",
+      "source_component": "calculator_divide",
+      "target_component": "nim_llm",
+      "source_port": "output",
+      "target_port": "tools",
+      "connection_type": "data_flow",
+      "configuration": {}
+    },
+    {
+      "id": "conn-3",
+      "source_component": "calculator_add",
+      "target_component": "nim_llm",
+      "source_port": "output",
+      "target_port": "tools",
+      "connection_type": "data_flow",
+      "configuration": {}
+    },
+    {
+      "id": "conn-4",
+      "source_component": "calculator_subtract",
+      "target_component": "nim_llm",
+      "source_port": "output",
+      "target_port": "tools",
+      "connection_type": "data_flow",
+      "configuration": {}
+    },
+    {
+      "id": "conn-5",
+      "source_component": "current_datetime",
+      "target_component": "nim_llm",
+      "source_port": "output",
+      "target_port": "tools",
+      "connection_type": "data_flow",
+      "configuration": {}
+    }
+  ],
+  "configuration": {
+    "verbose": true,
+    "retry_parsing_errors": true,
+    "max_retries": 3,
+    "include_tool_input_schema_in_tool_description": true
+  },
+  "is_valid": true,
+  "validation_errors": [],
+  "expected_yaml": {
+    "general": {
+      "use_uvloop": true
+    },
+    "functions": {
+      "calculator_multiply": {
+        "_type": "calculator_multiply"
+      },
+      "calculator_divide": {
+        "_type": "calculator_divide"
+      },
+      "calculator_add": {
+        "_type": "calculator_add"
+      },
+      "calculator_subtract": {
+        "_type": "calculator_subtract"
+      },
+      "current_datetime": {
+        "_type": "current_datetime"
+      }
+    },
+    "llms": {
+      "nim_llm": {
+        "_type": "nim",
+        "model_name": "meta/llama-3.1-70b-instruct",
+        "temperature": 0.0,
+        "max_tokens": 1024
+      }
+    },
+    "workflow": {
+      "_type": "react_agent",
+      "tool_names": [
+        "calculator_multiply",
+        "calculator_divide",
+        "calculator_add",
+        "calculator_subtract",
+        "current_datetime"
+      ],
+      "llm_name": "nim_llm",
+      "verbose": true,
+      "retry_parsing_errors": true,
+      "max_retries": 3
+    }
+  },
+  "test_cases": [
+    {
+      "name": "Basic Addition",
+      "input": "What is 5 + 3?",
+      "expected_output": "8",
+      "description": "Test basic addition operation"
+    },
+    {
+      "name": "Basic Multiplication",
+      "input": "What is 4 * 7?",
+      "expected_output": "28",
+      "description": "Test basic multiplication operation"
+    },
+    {
+      "name": "Complex Calculation",
+      "input": "What is (10 + 5) * 2?",
+      "expected_output": "30",
+      "description": "Test complex calculation with parentheses"
+    },
+    {
+      "name": "Time Question",
+      "input": "What time is it now?",
+      "expected_output": "current time",
+      "description": "Test datetime functionality"
+    },
+    {
+      "name": "Mixed Operations",
+      "input": "If I have 20 apples and eat 3, then buy 5 more, how many do I have?",
+      "expected_output": "22",
+      "description": "Test mixed arithmetic operations"
+    }
+  ],
+  "usage_instructions": {
+    "description": "This workflow creates a calculator agent that can perform basic mathematical operations and answer questions about calculations.",
+    "capabilities": [
+      "Perform basic arithmetic operations (add, subtract, multiply, divide)",
+      "Answer questions about mathematical calculations",
+      "Provide current date and time information",
+      "Handle complex multi-step calculations"
+    ],
+    "example_queries": [
+      "What is 15 + 27?",
+      "Calculate 8 * 9",
+      "What is 100 divided by 4?",
+      "If I have 50 dollars and spend 23, how much do I have left?",
+      "What time is it now?",
+      "What is the result of (5 + 3) * 2 - 4?"
+    ],
+    "limitations": [
+      "Only supports basic arithmetic operations",
+      "Cannot handle advanced mathematical functions (trigonometry, calculus, etc.)",
+      "Limited to numerical calculations"
+    ]
+  },
+  "deployment_notes": {
+    "requirements": [
+      "NeMo-Agent-Toolkit installed",
+      "NVIDIA NIM API access",
+      "Python 3.9+ environment"
+    ],
+    "environment_variables": {
+      "NIM_API_KEY": "Your NVIDIA NIM API key",
+      "NIM_BASE_URL": "https://api.nvcf.nvidia.com/v1"
+    },
+    "deployment_steps": [
+      "1. Ensure NeMo-Agent-Toolkit is installed",
+      "2. Set up NVIDIA NIM API credentials",
+      "3. Export the workflow to YAML",
+      "4. Run: aiq serve --config_file=workflow.yml",
+      "5. Test with: aiq run --config_file=workflow.yml"
+    ]
+  }
+}
